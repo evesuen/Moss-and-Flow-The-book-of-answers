@@ -100,6 +100,9 @@ export function MusicToggle({ enabled, onToggle }: MusicToggleProps) {
 	return (
 		<button
 			onClick={handleClick}
+			onMouseEnter={() => {
+				console.log("播放音效");
+			}}
 			className='relative w-20 h-10 cursor-pointer transition-all duration-300 hover:scale-105'
 			data-name='Toggle - V1'>
 			<div className='flex flex-row items-center relative size-full'>
