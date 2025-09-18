@@ -6,7 +6,7 @@ import { InputScreen } from './components/InputScreen';
 import { DeckScreen } from './components/DeckScreen';
 import { RevealScreen } from './components/RevealScreen';
 import backgroundImage from 'figma:asset/9c7488397fd59327c7d7f4c3ad2fd946c136d6a7.png';
-const welcomeBackgroundImage = new URL('./assets/d684ba38cbaaad165f27abc74c43d13edd0fe283.png', import.meta.url).href;
+const welcomeBackgroundImage = new URL('./assets/background.jpg', import.meta.url).href;
 
 export type AppState = 'welcome' | 'input' | 'deck' | 'reveal';
 
