@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import { color, motion } from 'motion/react';
 import { cardData } from './cardData';
 
 const Card1Image = new URL('../assets/3b1cb00660a9c4211c229e71941d8026292b476e.png', import.meta.url).href;
@@ -45,6 +45,7 @@ export function ThreeCardSelection({ onCardSelect }: ThreeCardSelectionProps) {
             key={displayIndex}
             className="relative h-[336px] overflow-clip rounded-radius-card shrink-0 w-[252px] cursor-pointer z-10"
             style={{
+              color: '#FCFEFB',
               perspective: '1000px',
               transformStyle: 'preserve-3d'
             }}
