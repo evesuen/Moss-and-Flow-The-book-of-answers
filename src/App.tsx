@@ -6,7 +6,7 @@ import { InputScreen } from './components/InputScreen';
 import { DeckScreen } from './components/DeckScreen';
 import { RevealScreen } from './components/RevealScreen';
 import backgroundImage from 'figma:asset/9c7488397fd59327c7d7f4c3ad2fd946c136d6a7.png';
-const welcomeBackgroundImage = new URL('./assets/background.jpg', import.meta.url).href;
+const welcomeBackgroundVideo = new URL('./assets/欢迎页背景.mp4', import.meta.url).href;
 
 export type AppState = 'welcome' | 'input' | 'deck' | 'reveal';
 
@@ -46,13 +46,34 @@ export default function App() {
 
   // 欢迎页组件
   const WelcomeScreen = () => (
-    <motion.div 
-      className="flex flex-col items-center justify-center h-full w-full"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+    <div className="relative h-full w-full">
+      {/* 视频背景 */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          objectFit: 'cover',
+          zIndex: -1
+        }}
+      >
+        <source src={welcomeBackgroundVideo} type="video/mp4" />
+      </video>
+      
+      {/* 内容层 */}
+      <motion.div 
+        className="relative z-10 flex flex-col items-center justify-center h-full w-full"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+      >
       {/* 三张浅绿色卡片 */}
       <div className="flex items-center gap-[40px]">
         {[0, 1, 2].map((index) => (
@@ -107,6 +128,7 @@ export default function App() {
         </p>
       </motion.div>
     </motion.div>
+    </div>
   );
 
   return (
@@ -114,7 +136,7 @@ export default function App() {
       className="h-screen flex flex-col bg-cover bg-center bg-no-repeat bg-fixed overflow-hidden"
       style={{
         backgroundImage: currentState === 'welcome' 
-          ? `url(${welcomeBackgroundImage})` 
+          ? 'none' 
           : `url(${backgroundImage})`,
       }}
     >
