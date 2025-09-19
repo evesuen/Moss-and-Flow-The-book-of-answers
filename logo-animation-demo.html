@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo中心浮现动画 - 演示</title>
+    <style>
+        /* 基础重置和全屏布局 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* 视频背景容器 */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Logo容器 - 全屏居中 */
+        .logo-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        /* Logo样式 - 响应式设计 */
+        .brand-logo {
+            max-width: 40vw;
+            min-width: 120px;
+            max-width: 240px;
+            width: auto;
+            height: auto;
+            
+            /* 初始状态：scale 0.9, opacity 0 */
+            transform: scale(0.9);
+            opacity: 0;
+            
+            /* 浮现动画：400ms ease-out */
+            animation: logoFadeIn 0.4s ease-out forwards;
+            
+            /* 漂浮动画：3s linear infinite */
+            animation: logoFadeIn 0.4s ease-out forwards,
+                       logoFloat 3s linear infinite 0.4s;
+        }
+
+        /* 浮现动画关键帧 */
+        @keyframes logoFadeIn {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* 漂浮动画关键帧 - 上下4px浮动 */
+        @keyframes logoFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        /* 支持 prefers-reduced-motion：减弱动效版本 */
+        @media (prefers-reduced-motion: reduce) {
+            .brand-logo {
+                /* 只保留淡入动画，移除漂浮效果 */
+                animation: logoFadeInReduced 0.2s ease-out forwards;
+            }
+        }
+
+        /* 减弱动效版本的浮现动画 */
+        @keyframes logoFadeInReduced {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .brand-logo {
+                max-width: 50vw;
+                min-width: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-logo {
+                max-width: 60vw;
+                min-width: 80px;
+            }
+        }
+
+        /* 加载提示 */
+        .loading-text {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            z-index: 20;
+            opacity: 0;
+            animation: fadeInDelayed 0.5s ease-out 1s forwards;
+        }
+
+        @keyframes fadeInDelayed {
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 视频背景 -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="./src/assets/欢迎页背景.mp4" type="video/mp4">
+            <!-- 如果视频无法加载，显示备用背景 -->
+            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);"></div>
+        </video>
+    </div>
+
+    <!-- Logo容器 -->
+    <div class="logo-container">
+        <img 
+            id="brandLogo" 
+            src="./src/assets/welcomepage_Logo_White.png" 
+            alt="MOSS & FLOW" 
+            class="brand-logo"
+        />
+    </div>
+
+    <!-- 加载提示 -->
+    <div class="loading-text">
+        3秒后自动跳转...
+    </div>
+
+    <script>
+        // 页面加载完成后触发Logo动画
+        window.addEventListener('load', function() {
+            console.log('页面加载完成，Logo动画开始');
+            
+            // 3秒后可以添加跳转逻辑
+            setTimeout(() => {
+                console.log('3秒后可以跳转到下一个页面');
+                // 这里可以添加页面跳转逻辑
+                // window.location.href = './input.html';
+            }, 3000);
+        });
+
+        // 检测用户是否设置了减弱动效偏好
+        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (mediaQuery.matches) {
+            console.log('用户设置了减弱动效偏好，将使用简化动画');
+        }
+
+        // 监听动效偏好变化
+        mediaQuery.addEventListener('change', (e) => {
+            if (e.matches) {
+                console.log('用户启用了减弱动效');
+            } else {
+                console.log('用户禁用了减弱动效');
+            }
+        });
+    </script>
+</body>
+</html>
