@@ -67,7 +67,7 @@ export function InputScreen({ onQuestionSubmit }: InputScreenProps) {
 						onChange={(e) => setInputValue(e.target.value)}
 						onKeyPress={handleKeyPress}
 						placeholder='您在想什么？'
-						className="bg-transparent border-none outline-none resize-none h-[50px] placeholder:text-muted-foreground text-[16px] font-['Playfair_Display',serif] font-normal font-[Playfair]"
+						className="bg-transparent border-none outline-none resize-none h-[50px] placeholder:text-muted-foreground text-[16px] font-chinese font-normal font-chinese"
 					/>
 
 					<div className='flex items-center justify-between gap-2'>
@@ -76,7 +76,7 @@ export function InputScreen({ onQuestionSubmit }: InputScreenProps) {
 								onClick={insertRandomQuestion}
 								className='bg-[#336655] text-white hover:bg-[#2d5a49] transition-colors flex items-center gap-1 h-7 px-2 py-1 rounded-[4px]'>
 								<img src={imgOthersMagic} className='w-3 h-3' alt='魔法图标' />
-								<span className="text-[14px] font-['Playfair_Display',serif] font-extrabold font-[Playfair]">
+								<span className="text-[14px] font-chinese font-extrabold font-chinese">
 									随机问题
 								</span>
 							</button>
@@ -85,7 +85,7 @@ export function InputScreen({ onQuestionSubmit }: InputScreenProps) {
 								onClick={insertTodayQuestion}
 								className='bg-[#336655] text-white hover:bg-[#2d5a49] transition-colors flex items-center gap-1 h-7 px-2 py-1 rounded-[4px]'>
 								<img src={imgOthersCardTwo} className='w-3 h-3' alt='牌卡图标' />
-								<span className="text-[14px] font-['Playfair_Display',serif] font-extrabold font-[Playfair]">
+								<span className="text-[14px] font-chinese font-extrabold font-chinese">
 									今日牌卡
 								</span>
 							</button>

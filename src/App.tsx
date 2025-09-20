@@ -97,7 +97,7 @@ const WelcomeScreen = ({
             fontSize: '18px', 
             marginBottom: '4px', 
             fontWeight: '300', 
-            fontFamily: 'system-ui, -apple-system, sans-serif' 
+            fontFamily: 'FlowerFangSong, Playfair Display, serif' 
           }}>
             在静谧里，你会听见回应
           </div>
@@ -297,35 +297,132 @@ export default function App() {
       <main className="flex-1 flex flex-col items-center justify-center px-4 overflow-hidden">
         <AnimatePresence mode="wait">
           {currentState === 'welcome' && (
-            <WelcomeScreen 
-              welcomeLogo={welcomeLogo}
-              showCornerImages={showCornerImages}
-              mossImage={mossImage}
-              lichenImage={lichenImage}
-              springImage={springImage}
-              waterImage={waterImage}
-              handleStartButtonToggle={handleStartButtonToggle}
-            />
+            <motion.div
+              key="welcome"
+              initial={{ opacity: 1 }}
+              exit={{ 
+                opacity: 0,
+                transition: {
+                  duration: 0.8,
+                  ease: [0.25, 0.46, 0.45, 0.94] // ease-in-out-cubic
+                }
+              }}
+              className="w-full h-full"
+            >
+              <WelcomeScreen 
+                welcomeLogo={welcomeLogo}
+                showCornerImages={showCornerImages}
+                mossImage={mossImage}
+                lichenImage={lichenImage}
+                springImage={springImage}
+                waterImage={waterImage}
+                handleStartButtonToggle={handleStartButtonToggle}
+              />
+            </motion.div>
           )}
           
           {currentState === 'input' && (
-            <InputScreen onQuestionSubmit={handleQuestionSubmit} />
+            <motion.div
+              key="input"
+              initial={{ 
+                opacity: 0,
+                scale: 1.05,
+                y: 20
+              }}
+              animate={{ 
+                opacity: 1,
+                scale: 1,
+                y: 0,
+                transition: {
+                  duration: 0.8,
+                  ease: [0.25, 0.46, 0.45, 0.94] // ease-in-out-cubic
+                }
+              }}
+              exit={{ 
+                opacity: 0,
+                scale: 0.95,
+                y: -10,
+                transition: {
+                  duration: 0.5,
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }
+              }}
+              className="w-full h-full flex flex-col items-center justify-center"
+            >
+              <InputScreen onQuestionSubmit={handleQuestionSubmit} />
+            </motion.div>
           )}
           
           {currentState === 'deck' && (
-            <DeckScreen 
-              question={question} 
-              onCardSelect={handleCardSelect}
-            />
+            <motion.div
+              key="deck"
+              initial={{ 
+                opacity: 0,
+                scale: 1.05,
+                y: 20
+              }}
+              animate={{ 
+                opacity: 1,
+                scale: 1,
+                y: 0,
+                transition: {
+                  duration: 0.8,
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }
+              }}
+              exit={{ 
+                opacity: 0,
+                scale: 0.95,
+                y: -10,
+                transition: {
+                  duration: 0.5,
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }
+              }}
+              className="w-full h-full flex flex-col items-center justify-center"
+            >
+              <DeckScreen 
+                question={question} 
+                onCardSelect={handleCardSelect}
+              />
+            </motion.div>
           )}
           
           {currentState === 'reveal' && selectedCardIndex !== null && (
-            <RevealScreen 
-              question={question}
-              guidance={cardGuidance}
-              onNewQuestion={handleNewQuestion}
-              selectedCardIndex={selectedCardIndex}
-            />
+            <motion.div
+              key="reveal"
+              initial={{ 
+                opacity: 0,
+                scale: 1.05,
+                y: 20
+              }}
+              animate={{ 
+                opacity: 1,
+                scale: 1,
+                y: 0,
+                transition: {
+                  duration: 0.8,
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }
+              }}
+              exit={{ 
+                opacity: 0,
+                scale: 0.95,
+                y: -10,
+                transition: {
+                  duration: 0.5,
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }
+              }}
+              className="w-full h-full flex flex-col items-center justify-center"
+            >
+              <RevealScreen 
+                question={question}
+                guidance={cardGuidance}
+                onNewQuestion={handleNewQuestion}
+                selectedCardIndex={selectedCardIndex}
+              />
+            </motion.div>
           )}
         </AnimatePresence>
       </main>

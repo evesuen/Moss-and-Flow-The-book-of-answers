@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { imgIndicator, imgIndicator1, imgHandle } from "../imports/svg-g7mfo";
-import AiQing from "../assets/audio/river-stream-moderate-flow-2-24370.mp3";
+import AiQing from "../assets/audio/水流音乐.mp3";
 
 interface MusicToggleProps {
 	enabled: boolean;
@@ -85,7 +85,7 @@ export function MusicToggle({ enabled, onToggle }: MusicToggleProps) {
 		if (!audioRef.current) {
 			audioRef.current = new Audio(AiQing);
 			audioRef.current.loop = true;
-			audioRef.current.volume = 0.5; // 设置音量，避免太大声
+			audioRef.current.volume = 0.3; // 设置音量，避免太大声
 			audioRef.current.preload = 'auto';
 		}
 	}, []);

@@ -7,6 +7,21 @@
     --ring-stroke: #FDFEFD;
     --text-color: #FDFEFD;
     --shadow-color: rgba(67, 137, 114, 0.20);
+    --font-chinese: 'FlowerFangSong', 'Playfair Display', serif;
+}
+/* 自定义中文字体定义 */
+@font-face {
+  font-family: 'FlowerFangSong';
+  src: url('../assets/font/FlowerFangSong.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+4E00-9FFF; /* 中文字符范围 */
+}
+
+/* 字体回退设置 */
+:root {
+  --font-chinese: 'FlowerFangSong', 'Playfair Display', serif;
 }
 
 /* 按钮容器 - 垂直居中布局 */
@@ -56,9 +71,11 @@
     box-shadow: 0 1px 7.3px 2px var(--shadow-color);
     position: relative;
     z-index: 2;
+    border: none;
+    transition: opacity 250ms ease-out, border 250ms ease-out;
     
     /* 防白闪优化 */
-    will-change: background-color;
+    will-change: background-color, opacity, border;
     backface-visibility: hidden;
     transform: translateZ(0);
 }
@@ -93,6 +110,12 @@
     opacity: 1;
 }
 
+/* Hover 状态 - 核心按钮效果 */
+.start-button:hover:not(:disabled) .btn-core {
+    border: 1px solid #FFFFFF;
+    opacity: 0.8;
+}
+
 /* Active 状态 - 显示外环 + 改变核心背景色 */
 .start-button[aria-pressed="true"] .btn-ring {
     opacity: 1;
@@ -107,7 +130,7 @@
     color: var(--text-color);
     text-align: center;
     text-shadow: 0 1px 7.3px var(--shadow-color);
-    font-family: "Playfair Display", serif;
+    font-family: var(--font-chinese);
     font-size: 20px;
     font-weight: 400;
     line-height: normal;
@@ -121,13 +144,19 @@
 
 /* 支持 prefers-reduced-motion - 减弱动效时仅做即时切换 */
 @media (prefers-reduced-motion: reduce) {
-    .btn-ring {
+    .btn-ring,
+    .btn-core {
         transition: none;
     }
     
     .start-button:hover .btn-ring,
     .start-button[aria-pressed="true"] .btn-ring {
         opacity: 1;
+    }
+    
+    .start-button:hover .btn-core {
+        opacity: 0.8;
+        border: 1px solid #FFFFFF;
     }
 }
 
@@ -166,4 +195,16 @@
     .btn-core {
         border: 1px solid #000000;
     }
+}
+
+/* 中文字体样式类 */
+.font-chinese {
+  font-family: var(--font-chinese);
+}
+
+/* 为中文文本自动应用字体 */
+[lang="zh"], 
+.chinese-text,
+.chinese-text * {
+  font-family: var(--font-chinese);
 }

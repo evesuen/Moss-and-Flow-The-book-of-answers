@@ -14,7 +14,7 @@ export function RevealScreen({ question, guidance, onNewQuestion, selectedCardIn
     <div className="flex flex-col items-center gap-4 w-full max-w-4xl h-full justify-center mx-[0px] my-[-48px]">
       {/* Question Display */}
       <div className="text-center max-w-[498px]">
-        <h3 className="text-[rgba(51,102,85,1)] font-['Playfair_Display',serif] font-bold text-[24px] font-[Playfair]">{question}</h3>
+        <h3 className="text-[rgba(51,102,85,1)] font-chinese font-bold text-[24px] font-chinese">{question}</h3>
       </div>
 
       {/* Revealed Card - Show the animated deck with the selected card revealed */}
@@ -33,7 +33,7 @@ export function RevealScreen({ question, guidance, onNewQuestion, selectedCardIn
         <div className="relative shrink-0 size-3">
           <img className="block max-w-none size-full" src={imgOthersThinkingProblem} alt="思考问题图标" />
         </div>
-        <div className="font-['Playfair_Display',serif] font-extrabold text-[#fdfefd] text-[16px] whitespace-nowrap">
+        <div className="font-chinese font-extrabold text-[#fdfefd] text-[16px] whitespace-nowrap">
           提出新问题
         </div>
       </button>

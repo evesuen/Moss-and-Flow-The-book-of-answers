@@ -11,7 +11,7 @@ export function TopBanner() {
               <path d="M8.31258 5.87484C8.31258 5.87484 7.77091 6.95817 6.41675 6.95817C5.06258 6.95817 4.52091 5.87484 4.52091 5.87484" stroke="white" strokeWidth="1.08333" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-          <p className="text-white text-center w-[500px] text-[10px] font-['Playfair_Display',serif] font-normal font-[Playfair] px-[-100px] py-[0px] mx-[-2px] my-[0px]">
+          <p className="text-white text-center w-[500px] text-[10px] font-chinese font-normal font-chinese px-[-100px] py-[0px] mx-[-2px] my-[0px]">
             塔罗牌正在聆听…输入您的问题，或让它们为您提问。
           </p>
         </div>

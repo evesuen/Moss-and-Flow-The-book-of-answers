@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import '../../styles/circular-start-button.css';
+import clickSound from '../../assets/audio/water-drop-85731.mp3'; // 你可以替换成你自己的音效文件
 
 interface CircularStartButtonProps {
   onToggle?: (isPressed: boolean) => void;
@@ -23,15 +24,38 @@ export const CircularStartButton: React.FC<CircularStartButtonProps> = ({
 }) => {
   const [isPressed, setIsPressed] = useState(initialPressed);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // 初始化音效
+  useEffect(() => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio(clickSound);
+      audioRef.current.volume = 0.15; // 设置音效音量
+      audioRef.current.preload = 'auto';
+    }
+  }, []);
+
+  // 播放点击音效
+  const playClickSound = useCallback(() => {
+    if (audioRef.current && !disabled) {
+      audioRef.current.currentTime = 0; // 重置到开始位置
+      audioRef.current.play().catch(error => {
+        console.log('音效播放失败:', error);
+      });
+    }
+  }, [disabled]);
 
   // 切换状态
   const toggleState = useCallback(() => {
     if (disabled) return;
     
+    // 播放点击音效
+    playClickSound();
+    
     const newState = !isPressed;
     setIsPressed(newState);
     onToggle?.(newState);
-  }, [isPressed, disabled, onToggle]);
+  }, [isPressed, disabled, onToggle, playClickSound]);
 
   // 键盘事件处理
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {

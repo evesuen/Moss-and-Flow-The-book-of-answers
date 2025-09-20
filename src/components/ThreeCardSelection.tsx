@@ -90,13 +90,13 @@ export function ThreeCardSelection({ onCardSelect }: ThreeCardSelectionProps) {
               }}
             >
               <div className="space-y-3">
-                <h3 className="text-[#39393e] mb-3 font-['Playfair_Display',serif] font-bold text-[16px]">{card.title}</h3>
-                <p className="text-[#39393e] leading-relaxed font-['Playfair_Display',serif] font-medium text-[12px]">{card.meaning}</p>
+                <h3 className="text-[#39393e] mb-3 font-chinese font-bold text-[16px]">{card.title}</h3>
+                <p className="text-[#39393e] leading-relaxed font-chinese font-medium text-[12px]">{card.meaning}</p>
                 <div className="flex flex-wrap gap-1 justify-center mt-2">
                   {card.keywords.map((keyword, idx) => (
                     <span 
                       key={idx} 
-                      className="font-['Playfair_Display',serif] text-[9px] text-[#39393e] bg-[#e4f8dd] px-1.5 py-0.5 rounded-full px-[17px] py-[2px]"
+                      className="font-chinese text-[9px] text-[#39393e] bg-[#e4f8dd] px-1.5 py-0.5 rounded-full px-[17px] py-[2px]"
                     >
                       {keyword}
                     </span>

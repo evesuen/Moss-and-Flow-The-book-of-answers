@@ -31,17 +31,17 @@ export function AnimatedCardDeck({
         <Frame455 />
         <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center px-4 w-full">
           <div className="space-y-3">
-            <h3 className="font-['Playfair_Display',serif] font-extrabold text-[#39393e] text-[36px]">
+            <h3 className="font-chinese font-extrabold text-[#39393e] text-[36px]">
               {cardData[selectedCardIndex].title}
             </h3>
-            <p className="font-['Playfair_Display',serif] font-medium text-[#39393e] text-[11px] leading-relaxed px-[24px] py-[0px]">
+            <p className="font-chinese font-medium text-[#39393e] text-[11px] leading-relaxed px-[24px] py-[0px]">
               {cardData[selectedCardIndex].meaning}
             </p>
             <div className="flex flex-wrap gap-1 justify-center mt-2">
               {cardData[selectedCardIndex].keywords.map((keyword, idx) => (
                 <span 
                   key={idx} 
-                  className="font-['Playfair_Display',serif] text-[9px] text-[#39393e] bg-[#e4f8dd] px-1.5 py-0.5 rounded-full px-[17px] py-[2px]"
+                  className="font-chinese text-[9px] text-[#39393e] bg-[#e4f8dd] px-1.5 py-0.5 rounded-full px-[17px] py-[2px]"
                 >
                   {keyword}
                 </span>
@@ -109,13 +109,13 @@ export function AnimatedCardDeck({
                 style={{ backfaceVisibility: 'hidden' }}
               >
                 <div className="space-y-3">
-                  <h3 className="text-primary mb-3 font-['Playfair_Display',serif] font-bold text-[16px]">{cardData[i].title}</h3>
-                  <p className="text-foreground leading-relaxed font-['Playfair_Display',serif] font-medium text-[12px]">{cardData[i].meaning}</p>
+                  <h3 className="text-primary mb-3 font-chinese font-bold text-[16px]">{cardData[i].title}</h3>
+                  <p className="text-foreground leading-relaxed font-chinese font-medium text-[12px]">{cardData[i].meaning}</p>
                   <div className="flex flex-wrap gap-1 justify-center mt-4">
                     {cardData[i].keywords.map((keyword, idx) => (
                       <span 
                         key={idx} 
-                        className="font-['Playfair_Display',serif] text-[9px] text-muted-foreground bg-accent px-1.5 py-0.5 rounded-full"
+                        className="font-chinese text-[9px] text-muted-foreground bg-accent px-1.5 py-0.5 rounded-full"
                       >
                         {keyword}
                       </span>
