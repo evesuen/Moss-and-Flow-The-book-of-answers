@@ -1,6 +1,6 @@
+import React, { useRef, useEffect } from "react";
 import { imgIndicator, imgIndicator1, imgHandle } from "../imports/svg-g7mfo";
-import { useRef } from "react";
-import AiQing from "../assets/audio/aiqingmaimai.mp3";
+import AiQing from "../assets/audio/river-stream-moderate-flow-2-24370.mp3";
 
 interface MusicToggleProps {
 	enabled: boolean;
@@ -81,19 +81,31 @@ export function MusicToggle({ enabled, onToggle }: MusicToggleProps) {
 	const audioRef = useRef<HTMLAudioElement | null>(null);
 
 	// 初始化 audio 对象
-	if (!audioRef.current) {
-		// https://er-sycdn.kuwo.cn/ac1ea4a791bb9fb6f225730a44817a32/68cab67b/resource/30106/trackmedia/M500002vzr7l2xUPVl.mp3?bitrate$128&from=vip
-		audioRef.current = new Audio(AiQing); // 替换成你的音乐文件路径
-		audioRef.current.loop = true; // 如果需要循环播放
-	}
+	useEffect(() => {
+		if (!audioRef.current) {
+			audioRef.current = new Audio(AiQing);
+			audioRef.current.loop = true;
+			audioRef.current.volume = 0.5; // 设置音量，避免太大声
+			audioRef.current.preload = 'auto';
+		}
+	}, []);
+
+	// 添加 useEffect 来处理 enabled 状态变化
+	useEffect(() => {
+		if (audioRef.current) {
+			if (enabled) {
+				audioRef.current.play().catch(error => {
+					console.log('音乐播放失败:', error);
+					// 浏览器可能阻止了自动播放
+				});
+			} else {
+				audioRef.current.pause();
+				audioRef.current.currentTime = 0;
+			}
+		}
+	}, [enabled]);
 
 	const handleClick = () => {
-		if (!enabled) {
-			audioRef.current?.play();
-		} else {
-			audioRef.current?.pause();
-			audioRef.current!.currentTime = 0; // 点击关闭时重置到开头
-		}
 		onToggle(!enabled);
 	};
 

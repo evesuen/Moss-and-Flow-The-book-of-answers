@@ -1,0 +1,42 @@
+/* 防白闪优化样式 */
+
+/* 1. 设置页面背景色，避免白色背景 */
+html, body {
+  background: #0b0b0b !important;
+  margin: 0;
+  height: 100%;
+}
+
+/* 2. 角落图片的优化样式 */
+.corner-image {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  opacity: 0;
+  z-index: 15;
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  transition: opacity 0.45s ease-out;
+}
+
+/* 3. 当图片显示时的状态 */
+.corner-image.show {
+  opacity: 1;
+}
+
+/* 4. 位置类 */
+.corner-tl { top: 32px; left: 32px; }
+.corner-tr { top: 32px; right: 32px; }
+.corner-bl { bottom: 32px; left: 32px; }
+.corner-br { bottom: 32px; right: 32px; }
+
+/* 5. 尊重用户的动效偏好设置 */
+@media (prefers-reduced-motion: reduce) {
+  .corner-image {
+    transition: none;
+  }
+  .corner-image.show {
+    opacity: 1;
+  }
+}
