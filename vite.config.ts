@@ -5,7 +5,7 @@
 
   export default defineConfig({
     plugins: [react()],
-    base: '/', // 使用自定义域名时使用根路径
+    base: '/Moss-and-Flow-The-book-of-answers/', // GitHub Pages路径
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
       alias: {
