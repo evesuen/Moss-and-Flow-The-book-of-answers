@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface CardBackProps {
   isHoverable?: boolean;
 }

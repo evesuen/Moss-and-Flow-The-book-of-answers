@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { TopBanner } from './components/TopBanner';
+// import { TopBanner } from './components/TopBanner';
 import { Navigation } from './components/Navigation';
 import { InputScreen } from './components/InputScreen';
 import { DeckScreen } from './components/DeckScreen';
 import { RevealScreen } from './components/RevealScreen';
 import CircularStartButton from './components/ui/circular-start-button';
 import { MusicToggle } from './components/MusicToggle';
-import backgroundImage from 'figma:asset/9c7488397fd59327c7d7f4c3ad2fd946c136d6a7.png';
+// import backgroundImage from 'figma:asset/9c7488397fd59327c7d7f4c3ad2fd946c136d6a7.png';
 import './styles/anti-flash.css';
 import AiQing from './assets/audio/草地音乐.mp3';
 
@@ -17,6 +17,8 @@ const mossImage = new URL('./assets/苔.png', import.meta.url).href;
 const lichenImage = new URL('./assets/藓.png', import.meta.url).href;
 const springImage = new URL('./assets/泉.png', import.meta.url).href;
 const waterImage = new URL('./assets/水.png', import.meta.url).href;
+
+import { DrawnCard } from './components/cardData';
 
 export type AppState = 'welcome' | 'input' | 'deck' | 'reveal';
 
@@ -141,13 +143,14 @@ const WelcomeScreen = ({
 export default function App() {
   const [currentState, setCurrentState] = useState<AppState>('welcome');
   const [question, setQuestion] = useState('');
-  const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null);
+  const [selectedCard, setSelectedCard] = useState<DrawnCard | null>(null);
   const [musicEnabled, setMusicEnabled] = useState(true); // 默认启用音乐
   const [cardGuidance, setCardGuidance] = useState('');
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [showCornerImages, setShowCornerImages] = useState(false);
   const [imagesReady, setImagesReady] = useState(false);
   const [showMainContent, setShowMainContent] = useState(false);
+  const [showTopBanner, setShowTopBanner] = useState(true);
   
   // 欢迎页音乐播放器
   const welcomeAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -250,14 +253,14 @@ export default function App() {
     setCurrentState('deck');
   };
 
-  const handleCardSelect = (cardIndex: number) => {
-    setSelectedCardIndex(cardIndex);
+  const handleCardSelect = (card: DrawnCard) => {
+    setSelectedCard(card);
     setCurrentState('reveal');
   };
 
   const handleNewQuestion = () => {
     setQuestion('');
-    setSelectedCardIndex(null);
+    setSelectedCard(null);
     setCardGuidance('');
     setCurrentState('input');
   };
@@ -288,10 +291,12 @@ export default function App() {
       style={{
         backgroundImage: currentState === 'welcome' 
           ? 'none' 
-          : `url(${backgroundImage})`,
+          : `url(${new URL('./assets/9c7488397fd59327c7d7f4c3ad2fd946c136d6a7.png', import.meta.url).href})`,
       }}
     >
-      {currentState !== 'welcome' && <TopBanner />}
+      {currentState !== 'welcome' && showTopBanner && (
+        <TopBanner />
+      )}
       {currentState !== 'welcome' && <Navigation musicEnabled={musicEnabled} setMusicEnabled={setMusicEnabled} />}
       
       <main className="flex-1 flex flex-col items-center justify-center px-4 overflow-hidden">
@@ -388,7 +393,7 @@ export default function App() {
             </motion.div>
           )}
           
-          {currentState === 'reveal' && selectedCardIndex !== null && (
+          {currentState === 'reveal' && selectedCard !== null && (
             <motion.div
               key="reveal"
               initial={{ 
@@ -420,12 +425,24 @@ export default function App() {
                 question={question}
                 guidance={cardGuidance}
                 onNewQuestion={handleNewQuestion}
-                selectedCardIndex={selectedCardIndex}
+                selectedCard={selectedCard}
               />
             </motion.div>
           )}
         </AnimatePresence>
       </main>
+    </div>
+  );
+}
+
+export function TopBanner() {
+  return (
+    <div className="w-full sticky top-0">
+      <div className="bg-[rgba(51,102,85,1)] h-8 flex items-center justify-center">
+        <p className="text-white text-center text-[10px] font-chinese font-normal font-chinese">
+          ⟡  心里有疑惑吗？写下来，让卡牌告诉你答案吧  ⟡  
+        </p>
+      </div>
     </div>
   );
 }

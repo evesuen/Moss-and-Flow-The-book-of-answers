@@ -1,30 +1,47 @@
 import { useState } from "react";
+import { motion } from "motion/react";
 import { Button } from "./ui/button";
 import { AnimatedCardDeck } from "./AnimatedCardDeck";
 import { imgOthersMagic, imgOthersCardTwo, imgArrowsSend } from "../imports/svg-1ei4v";
 import "./InputScreen.css";
+
 interface InputScreenProps {
 	onQuestionSubmit: (question: string) => void;
 }
 
 const randomQuestions = [
-	"这周我应该关注什么？",
-	"我如何改善人际关系？",
-	"我应该注意什么障碍？",
-	"有什么机会正在向我走来？",
-	"我如何更好地信任我的直觉？",
-	"我现在需要学习什么课程？",
-	"我应该放下什么？",
-	"我如何找到生活的平衡？",
-];
+	// 🌿 关系 (Relationships)
+	"我和他/她的关系，正在走向哪里？",
+	"我该不该继续坚持这段关系？",
+	"在关系里，我忽略了什么？",
+	"他/她真正想表达的是什么？",
+	"我该如何处理不确定的关系？",
+	"我们之间的连结，还会继续吗？",
+	"怎样的关系，才算真正适合我？",
+	"我和身边的人，最需要调整的是什么？",
+	"这段关系想教会我什么？",
+	"我在关系里最需要学习的是什么？",
+  
+	// 🌱 自我状态 (Self & Awareness)
+	"我现在最需要听到的提醒是什么？",
+	"此刻的我，真正渴望的是什么？",
+	"我该如何面对自己的不安？",
+	"我忽略了自己哪一部分？",
+	"我该如何更好地爱自己？",
+	"什么能让我感觉更平静？",
+	"我现在需要坚持，还是需要放下？",
+	"我该如何找到属于自己的节奏？",
+	"我真正的力量藏在哪里？",
+	"接下来，我最需要相信什么？",
+  ];
+  
+  
 
-const todayQuestions = [
-	"今天为我准备了什么？",
-	"今天我应该拥抱什么能量？",
-	"今天我需要听到什么信息？",
-	"我如何充分利用今天？",
-	"今天我应该注意什么？",
-];
+  const todayQuestions = [
+	"今日的关键讯息是什么？",
+	"今天的幸运来自哪里？",
+	"今天我该用什么态度去迎接生活？",
+  ];
 
 export function InputScreen({ onQuestionSubmit }: InputScreenProps) {
 	const [inputValue, setInputValue] = useState("");
@@ -53,14 +70,29 @@ export function InputScreen({ onQuestionSubmit }: InputScreenProps) {
 	};
 
 	return (
-		<div className='flex flex-col items-center gap-6 w-full max-w-4xl h-full justify-center'>
+		<div className='flex flex-col items-center gap-6 w-full max-w-4xl h-full justify-start pt-4'>
 			{/* Card Deck */}
 			<div className='relative scale-75'>
 				<AnimatedCardDeck />
 			</div>
 
-			{/* Input Section */}
-			<div className='custom-input bg-card border  rounded-[8px] p-4 w-full max-w-[600px]   shadow-[0px_1px_7.3px_2px_rgba(67,137,114,0.2)]  focus-within:border-[hsla(160,34%,30%,1)] transition-colors'>
+			{/* Input Section - 从底部向上进入 */}
+			<motion.div 
+				className='custom-input bg-card border rounded-[8px] p-4 w-full max-w-[600px] shadow-[0px_1px_7.3px_2px_rgba(67,137,114,0.2)] focus-within:border-[hsla(160,34%,30%,1)] transition-colors'
+				initial={{ 
+					y: 100,    // 从底部100px开始
+					opacity: 0 // 初始透明
+				}}
+				animate={{ 
+					y: 0,      // 移动到最终位置
+					opacity: 1 // 完全不透明
+				}}
+				transition={{ 
+					duration: 0.8,           // 动画持续时间
+					ease: "easeIn",          // ease-in效果
+					delay: 1.0               // 延迟1秒开始（等待卡牌动画完成）
+				}}
+			>
 				<div className='flex flex-col gap-2 '>
 					<textarea
 						value={inputValue}
@@ -83,7 +115,7 @@ export function InputScreen({ onQuestionSubmit }: InputScreenProps) {
 
 							<button
 								onClick={insertTodayQuestion}
-								className='bg-[#336655] text-white hover:bg-[#2d5a49] transition-colors flex items-center gap-1 h-7 px-2 py-1 rounded-[4px]'>
+								className='bg-[#336655] text-white hover:bg-[#2d5a49] transition-colors flex items-center gap-2 h-7 px-2 py-1 rounded-[4px]'>
 								<img src={imgOthersCardTwo} className='w-3 h-3' alt='牌卡图标' />
 								<span className="text-[14px] font-chinese font-extrabold font-chinese">
 									今日牌卡
@@ -99,7 +131,7 @@ export function InputScreen({ onQuestionSubmit }: InputScreenProps) {
 						</button>
 					</div>
 				</div>
-			</div>
+			</motion.div>
 		</div>
 	);
 }

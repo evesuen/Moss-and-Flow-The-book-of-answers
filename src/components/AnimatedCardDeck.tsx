@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Frame455 } from './Frame455';
-import Card1Image from '../assets/3b1cb00660a9c4211c229e71941d8026292b476e.png';
-import { cardData } from './cardData';
+// import CardBackImage from '../assets/CardBack.png';
+import { cardTypes, DrawnCard } from './cardData';
+// import pageFlipSound from '../assets/audio/page-flip.mp3';
 
 interface AnimatedCardDeckProps {
   onCardSelect?: (cardIndex: number) => void;
@@ -16,11 +17,51 @@ export function AnimatedCardDeck({
   selectedCardIndex = null
 }: AnimatedCardDeckProps) {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [audioInitialized, setAudioInitialized] = useState(false);
+
+  // 初始化音效
+  useEffect(() => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio(new URL('../assets/audio/page-flip.mp3', import.meta.url).href);
+      audioRef.current.volume = 0.4;
+      audioRef.current.preload = 'auto';
+      setAudioInitialized(true);
+      console.log('音效初始化成功');
+    }
+  }, []);
+
+  // 播放hover音效
+  const playHoverSound = async () => {
+    if (audioRef.current && audioInitialized) {
+      try {
+        audioRef.current.currentTime = 0;
+        await audioRef.current.play();
+        console.log('音效播放成功');
+      } catch (error) {
+        console.log('音效播放失败:', error);
+        // 如果播放失败，尝试重新加载
+        try {
+          await audioRef.current.load();
+          await audioRef.current.play();
+        } catch (retryError) {
+          console.log('重试播放也失败:', retryError);
+        }
+      }
+    }
+  };
 
   const handleCardClick = (cardIndex: number) => {
     if (onCardSelect) {
       onCardSelect(cardIndex);
     }
+  };
+
+  // 处理hover进入事件
+  const handleMouseEnter = (cardIndex: number) => {
+    setHoveredCard(cardIndex);
+    console.log('Hover到卡牌:', cardIndex);
+    playHoverSound();
   };
 
   // If revealing and a card is selected, show single card
@@ -32,21 +73,11 @@ export function AnimatedCardDeck({
         <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center px-4 w-full">
           <div className="space-y-3">
             <h3 className="font-chinese font-extrabold text-[#39393e] text-[36px]">
-              {cardData[selectedCardIndex].title}
+              {cardTypes[selectedCardIndex - 1]?.name || '未知'}
             </h3>
             <p className="font-chinese font-medium text-[#39393e] text-[11px] leading-relaxed px-[24px] py-[0px]">
-              {cardData[selectedCardIndex].meaning}
+              显示选中的卡牌内容
             </p>
-            <div className="flex flex-wrap gap-1 justify-center mt-2">
-              {cardData[selectedCardIndex].keywords.map((keyword, idx) => (
-                <span 
-                  key={idx} 
-                  className="font-chinese text-[9px] text-[#39393e] bg-[#e4f8dd] px-1.5 py-0.5 rounded-full px-[17px] py-[2px]"
-                >
-                  {keyword}
-                </span>
-              ))}
-            </div>
           </div>
         </div>
         <div className="absolute inset-0 pointer-events-none" />
@@ -54,7 +85,7 @@ export function AnimatedCardDeck({
     );
   }
 
-  // Otherwise show the full deck
+  // Otherwise show the full deck with entrance animation
   return (
     <div className="box-border content-stretch flex items-center justify-start pl-0 pr-[190px] py-0 relative shrink-0 rounded-[4px]">
       {[...Array(11).keys()].map((_, i) => (
@@ -64,14 +95,41 @@ export function AnimatedCardDeck({
             selectedCardIndex === i ? 'z-20' : 'z-10'
           }`}
           style={{}}
-          onMouseEnter={() => setHoveredCard(i)}
+          onMouseEnter={() => handleMouseEnter(i)}
           onMouseLeave={() => setHoveredCard(null)}
           onClick={() => handleCardClick(i)}
-          animate={{
-            scale: hoveredCard === i ? 1.02 : 1,
-            y: hoveredCard === i ? -8 : 0,
+          // 入场动画：从左到右逐一展开
+          initial={{ 
+            x: -300,  // 从左侧开始
+            opacity: 0,
+            scale: 0.8
           }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
+          animate={{ 
+            x: 0,     // 移动到最终位置
+            opacity: 1,
+            scale: 1,
+            // 保留hover效果
+            y: hoveredCard === i ? -8 : 0
+          }}
+          transition={{ 
+            // 入场动画设置
+            x: { 
+              duration: 0.6, 
+              ease: [0.25, 0.46, 0.45, 0.94], // 平滑的缓动曲线
+              delay: i * 0.08  // 每张卡牌延迟0.08秒，形成从左到右的效果
+            },
+            opacity: { 
+              duration: 0.4, 
+              delay: i * 0.08 
+            },
+            scale: { 
+              duration: 0.6, 
+              ease: [0.25, 0.46, 0.45, 0.94],
+              delay: i * 0.08 
+            },
+            // hover效果的过渡
+            y: { duration: 0.2, ease: "easeOut" }
+          }}
         >
           {/* Card Back */}
           <AnimatePresence>
@@ -87,7 +145,7 @@ export function AnimatedCardDeck({
                 }}
               >
                 <img 
-                  src={Card1Image}
+                  src={new URL('../assets/CardBack.png', import.meta.url).href}
                   alt="塔罗牌背面"
                   className="w-full h-full object-cover"
                 />
@@ -109,18 +167,8 @@ export function AnimatedCardDeck({
                 style={{ backfaceVisibility: 'hidden' }}
               >
                 <div className="space-y-3">
-                  <h3 className="text-primary mb-3 font-chinese font-bold text-[16px]">{cardData[i].title}</h3>
-                  <p className="text-foreground leading-relaxed font-chinese font-medium text-[12px]">{cardData[i].meaning}</p>
-                  <div className="flex flex-wrap gap-1 justify-center mt-4">
-                    {cardData[i].keywords.map((keyword, idx) => (
-                      <span 
-                        key={idx} 
-                        className="font-chinese text-[9px] text-muted-foreground bg-accent px-1.5 py-0.5 rounded-full"
-                      >
-                        {keyword}
-                      </span>
-                    ))}
-                  </div>
+                  <h3 className="text-primary mb-3 font-chinese font-bold text-[16px]">{cardTypes[i % cardTypes.length].name}</h3>
+                  <p className="text-foreground leading-relaxed font-chinese font-medium text-[12px]">卡牌内容</p>
                 </div>
               </motion.div>
             )}

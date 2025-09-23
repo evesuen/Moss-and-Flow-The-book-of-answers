@@ -1,8 +1,9 @@
 import { ThreeCardSelection } from './ThreeCardSelection';
+import { DrawnCard } from './cardData';
 
 interface DeckScreenProps {
   question: string;
-  onCardSelect: (cardIndex: number) => void;
+  onCardSelect: (card: DrawnCard) => void;
 }
 
 export function DeckScreen({ question, onCardSelect }: DeckScreenProps) {
