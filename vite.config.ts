@@ -5,7 +5,7 @@
 
   export default defineConfig({
     plugins: [react()],
-    base: '/Interactive-Tarot-Card-Experience/', // 替换为你的GitHub仓库名
+    base: '/Moss-and-Flow-The-book-of-answers/', // 更新为新的仓库名
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
       alias: {
