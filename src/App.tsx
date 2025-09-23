@@ -9,7 +9,6 @@ import CircularStartButton from './components/ui/circular-start-button';
 import { MusicToggle } from './components/MusicToggle';
 // import backgroundImage from 'figma:asset/9c7488397fd59327c7d7f4c3ad2fd946c136d6a7.png';
 import './styles/anti-flash.css';
-import AiQing from './assets/audio/草地音乐.mp3';
 
 const welcomeBackgroundVideo = new URL('./assets/欢迎页背景.mp4', import.meta.url).href;
 const welcomeLogo = new URL('./assets/welcomepage_Logo_White.png', import.meta.url).href;
@@ -152,41 +151,7 @@ export default function App() {
   const [showMainContent, setShowMainContent] = useState(false);
   const [showTopBanner, setShowTopBanner] = useState(true);
   
-  // 欢迎页音乐播放器
-  const welcomeAudioRef = useRef<HTMLAudioElement | null>(null);
-
-  // 初始化欢迎页音乐播放器
-  useEffect(() => {
-    if (!welcomeAudioRef.current) {
-      welcomeAudioRef.current = new Audio(AiQing);
-      welcomeAudioRef.current.loop = true;
-      welcomeAudioRef.current.volume = 0.5;
-      welcomeAudioRef.current.preload = 'auto';
-    }
-  }, []);
-
-  // 当进入欢迎页时自动播放音乐
-  useEffect(() => {
-    if (currentState === 'welcome' && welcomeAudioRef.current && musicEnabled) {
-      const playMusic = async () => {
-        try {
-          await welcomeAudioRef.current?.play();
-          console.log('欢迎页音乐开始播放');
-        } catch (error) {
-          console.log('欢迎页音乐播放被阻止:', error);
-        }
-      };
-      playMusic();
-    }
-  }, [currentState, musicEnabled]);
-
-  // 当离开欢迎页时，停止欢迎页音乐
-  useEffect(() => {
-    if (currentState !== 'welcome' && welcomeAudioRef.current) {
-      welcomeAudioRef.current.pause();
-      welcomeAudioRef.current.currentTime = 0;
-    }
-  }, [currentState]);
+  // 欢迎页音乐已移除
 
   // 检测用户的动效偏好设置
   useEffect(() => {
